@@ -1,3 +1,4 @@
+const createTypes = require('./types')
 
 /*
 
@@ -15,6 +16,7 @@ The CID must be a valid Package.
 
 */
 
-const publish = async (file, name, info={}) => {
-  
+const publish = async (file, name, getBlock) => {
+  const types = createTypes({getBlock})
 }
+publish()
