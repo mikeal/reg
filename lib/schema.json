@@ -1,0 +1,28 @@
+{
+  "types": {
+    "FileMap": {
+      "kind": "map",
+      "keyType": "String",
+      "valueType": "File"
+    },
+    "Package": {
+      "kind": "struct",
+      "fields": {
+        "files": {
+          "type": "FileMap"
+        },
+        "deps": {
+          "type": "PackageMap"
+        }
+      },
+      "representation": {
+        "map": {}
+      }
+    },
+    "PackageMap": {
+      "kind": "map",
+      "keyType": "String",
+      "valueType": "Package"
+    }
+  }
+}
