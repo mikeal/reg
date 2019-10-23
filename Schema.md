@@ -31,5 +31,5 @@ package files other than the index.js.
 
 Also, it's just a bit simpler to have a unified map of import keys
 to CIDs. Once the files are content addressed and put in the registry
-there isn't much difference between a "local" file ('./src/file.js')
-and a registry package ('@mikeal/bent/1.0.0).
+there isn't much difference between a "local" file (`./src/file.js`)
+and a registry package (`@mikeal/bent/1.0.0`).
