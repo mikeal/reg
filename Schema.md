@@ -17,11 +17,11 @@ project will actually be a collection of packages
 that are all linked together.
 
 The keys of `PackageMap` are the exact import strings
-from the origin source file.
+from the original source file.
 
 When a package is published the only thing alterered from
 source is a replacement of the original names with
-`"@rev/CID"`. The original names are the `PackageMap` key
+`"@reg/CID"`. The original names are the `PackageMap` key
 strings.
 
 The reason we do this is so that every individual file maintains
@@ -31,5 +31,5 @@ package files other than the index.js.
 
 Also, it's just a bit simpler to have a unified map of import keys
 to CIDs. Once the files are content addressed and put in the registry
-there isn't much difference between a "local" file and a registry
-package.
+there isn't much difference between a "local" file ('./src/file.js')
+and a registry package ('@mikeal/bent/1.0.0).
