@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "ipld-schema to-json Schema.md > src/schema.json"
+    "build": "ipld-schema to-json Schema.md > src/schema.json",
+    "test": "aegir test -t node"
   },
   "bin": {
     "reg": "./cli.sh"
@@ -14,7 +15,9 @@
   "author": "Mikeal Rogers <mikeal.rogers@gmail.com> (https://www.mikealrogers.com/)",
   "license": "(Apache-2.0 AND MIT)",
   "devDependencies": {
-    "standard": "^14.1.0"
+    "aegir": "^20.4.1",
+    "mocha": "^6.2.2",
+    "standard": "^14.3.1"
   },
   "dependencies": {
     "cids": "^0.7.1",

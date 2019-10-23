@@ -53,7 +53,6 @@ const loadPackage = async (cid, filename) => {
 }
 
 export async function resolve (specifier, parentModuleURL = baseURL, defaultResolve) {
-  console.error({specifier})
   if (specifier.startsWith('@')) {
     if (specifier.startsWith('@reg/')) {
       let cid = new CID(specifier.slice('@reg/'.length))
