@@ -1,15 +1,13 @@
 {
   "types": {
-    "FileMap": {
-      "kind": "map",
-      "keyType": "String",
-      "valueType": "File"
-    },
     "Package": {
       "kind": "struct",
       "fields": {
-        "files": {
-          "type": "FileMap"
+        "file": {
+          "type": {
+            "kind": "link",
+            "expectedType": "File"
+          }
         },
         "deps": {
           "type": "PackageMap"
@@ -22,7 +20,10 @@
     "PackageMap": {
       "kind": "map",
       "keyType": "String",
-      "valueType": "Package"
+      "valueType": {
+        "kind": "link",
+        "expectedType": "Package"
+      }
     }
   }
 }

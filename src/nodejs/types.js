@@ -1,6 +1,6 @@
 const schema = require('../schema.json')
 const gen = require('ipld-schema-gen')
-const createTypes = require('../../../js-unixfsv2/src/schema')
+const { createTypes } = require('../../../js-unixfsv2')
 
 const create = (opts={}) => {
   const types = createTypes(opts)

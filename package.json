@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "ipld-schema to-json Schema.md > lib/schema.json"
+    "build": "ipld-schema to-json Schema.md > src/schema.json"
   },
   "bin": {
     "reg": "./cli.sh"
@@ -17,6 +17,7 @@
     "standard": "^14.1.0"
   },
   "dependencies": {
+    "cids": "^0.7.1",
     "ipld-schema-gen": "^3.5.3"
   }
 }

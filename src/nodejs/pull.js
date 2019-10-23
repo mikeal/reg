@@ -1,7 +1,6 @@
 const path = require('path')
 const tmp = require('tmp')
 const CID = require('cids')
-const storage = require('../../../js-unixfsv2/src/local-storage.js')
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
