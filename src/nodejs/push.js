@@ -1,5 +1,5 @@
 const createTypes = require('./types')
-const { encoder } = require('../../../js-unixfsv2')
+const linker = require('./linker')
 
 /*
 Registry layout is simple. Every user has their own namespace
@@ -18,20 +18,14 @@ The CID must be a valid Package.
 const push = async (file, putBlock) => {
   const types = createTypes({codec: 'dag-json'})
   const puts = []
-  const files = {}
-  // TODO: parse file and re-write all imports to
-  // CID references.
-  let fileLink
-  for await (let { block, root } of encoder(file)) {
+  let pkg
+  for await (let { block, root } of linker(file)) {
     if (root) {
       block = root.block()
-      fileLink = await block.cid()
+      pkg = root
     }
     puts.push(putBlock(block))
   }
-  const pkg = types.Package.encoder({ file: await fileLink, deps: {} })
-  const block = pkg.block()
-  puts.push(putBlock(block))
   await Promise.all(puts)
   return pkg
 }

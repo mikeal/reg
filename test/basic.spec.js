@@ -33,7 +33,7 @@ const run = script => {
 test('basic push and import', async () => {
   const pkg = await fixture('src/hello-world.js', store.put)
   const module = `
-    import { hello } from '@reg/${ pkg.toString() }'
+    import { hello } from '#${ pkg.toString() }'
     console.log(hello)
   `
   const f = await write(module)

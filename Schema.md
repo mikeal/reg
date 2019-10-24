@@ -21,7 +21,7 @@ from the original source file.
 
 When a package is published the only thing alterered from
 source is a replacement of the original names with
-`"@reg/CID"`. The original names are the `PackageMap` key
+`"#{CID}"`. The original names are the `PackageMap` key
 strings.
 
 The reason we do this is so that every individual file maintains

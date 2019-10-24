@@ -18,5 +18,4 @@ const pull = async cid => {
   if (!pkg.type === 'reg') {
     throw new Error(`CID is not reg package, ${cid.toString()}`)
   }
-  console.log(pkg)
 }
