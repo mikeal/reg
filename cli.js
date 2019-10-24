@@ -13,7 +13,7 @@ const pushOptions = yargs => {
 const runPush = async argv => {
   const pkg = await push(argv.input, store.put)
   const cid = await pkg.block().cid()
-  console.log(`Published "/@reg/${cid.toString()}"`)
+  console.log(`Published "@reg/${cid.toString()}"`)
 }
 
 const bin = path.join(__dirname, 'reg.sh')

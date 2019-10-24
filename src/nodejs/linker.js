@@ -40,9 +40,9 @@ const importer = async function * (parser) {
     const dec = ast.program.body[i]
     const source = dec.source.value
     let cid
-    if (source.startsWith('/@reg/')) {
+    if (source.startsWith('@reg/')) {
       // For some reason, this is already hash linked.
-      deps[source] = new CID(source.slice('/@reg/'.length))
+      deps[source] = new CID(source.slice('@reg/'.length))
       return
     } else if (source.startsWith('@')) {
       /* reserve @std/ for browser standard library */
@@ -60,7 +60,7 @@ const importer = async function * (parser) {
       throw new Error(`Unknown import "${ source }"`)
     }
     deps[source] = cid
-    dec.source.value = `/@reg/${cid.toString()}`
+    dec.source.value = `@reg/${cid.toString()}`
     let str = print(dec).code
     str += ` // static-link("${source}")`
     ast.program.body[i] = parse(str).program.body[0]

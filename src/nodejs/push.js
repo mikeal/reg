@@ -1,20 +1,6 @@
 const createTypes = require('./types')
 const linker = require('./linker')
 
-/*
-Registry layout is simple. Every user has their own namespace
-and can publish a package to that name.
-
-/:github-username/:package-name
-
-The registry is simply an authenticated k/v store that points
-these namespaces to CIDs.
-
-/@mikeal/bent => CID
-
-The CID must be a valid Package.
-*/
-
 const push = async (file, putBlock) => {
   const types = createTypes({codec: 'dag-json'})
   const puts = []
