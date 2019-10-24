@@ -83,7 +83,7 @@ const importer = async function * (parser) {
     }
     yield { block }
   }
-  const pkg = types.Package.encoder({ file: await fileLink, deps })
+  const pkg = types.Package.encoder({ v1: { file: await fileLink, deps }})
   const block = pkg.block()
   yield { root: pkg }
 }

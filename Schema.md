@@ -4,11 +4,14 @@ The `File` type is from UnixFSv2 and imported from the
 [`unixfsv2`](https://github.com/ipld/js-unixfsv2) module.
 
 ```sh
-type Package struct {
+type PackageV1 struct {
   file &File
   deps PackageMap
 }
 type PackageMap {String:&Package}
+type Package union {
+  | PackageV1 "v1"
+} representation keyed
 ```
 
 A package is a single file of JavaScript and a map

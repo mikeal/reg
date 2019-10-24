@@ -1,6 +1,6 @@
 {
   "types": {
-    "Package": {
+    "PackageV1": {
       "kind": "struct",
       "fields": {
         "file": {
@@ -23,6 +23,14 @@
       "valueType": {
         "kind": "link",
         "expectedType": "Package"
+      }
+    },
+    "Package": {
+      "kind": "union",
+      "representation": {
+        "keyed": {
+          "v1": "PackageV1"
+        }
       }
     }
   }

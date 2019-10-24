@@ -36,14 +36,14 @@ const loadPackage = async (cid, filename) => {
   if (!filename) {
     filename = path.join(cache, cid.toString(), 'index.js')
   }
-  for (let [key, value] of Object.entries(data.deps)) {
+  for (let [key, value] of Object.entries(await pkg.get('*/deps'))) {
     if (key.startswith('./') || key.startsWith('../../')) {
       // TODO: write local files to look like original dir structure
     }
     loadPackage(value)
   }
   await mkdirp(path.dirname(filename))
-  const file = await pkg.getNode('file/data')
+  const file = await pkg.getNode('*/file/data')
   const writer = createWriteStream(filename)
   for await (const chunk of file.read()) {
     writer.write(chunk)
