@@ -4,6 +4,7 @@
   "version": "0.0.0-dev",
   "description": "",
   "main": "index.js",
+  "browser": "browser.js",
   "scripts": {
     "build": "ipld-schema to-json Schema.md > src/schema.json",
     "test": "aegir test -t node"
