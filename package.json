@@ -22,8 +22,9 @@
   },
   "dependencies": {
     "@ipld/printify": "0.0.0",
+    "@ipld/schema-gen": "0.0.1",
+    "@ipld/unixfsv2": "0.0.1",
     "cids": "^0.7.1",
-    "ipld-schema-gen": "^3.5.3",
     "recast": "^0.18.5"
   }
 }

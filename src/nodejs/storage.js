@@ -1,4 +1,4 @@
-const localStorage = require('../../../js-unixfsv2/src/local-storage')
+const localStorage = require('@ipld/unixfsv2/src/local-storage')
 const mkdirp = require('mkdirp')
 const path = require('path')
 
