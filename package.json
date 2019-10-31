@@ -10,7 +10,7 @@
     "test": "aegir test -t node"
   },
   "bin": {
-    "reg": "./cli.sh"
+    "reg": "./cli.js"
   },
   "keywords": [],
   "author": "Mikeal Rogers <mikeal.rogers@gmail.com> (https://www.mikealrogers.com/)",
