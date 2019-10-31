@@ -7,9 +7,15 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Build
-      run: npm install
+      uses: mikeal/npx@master
+      with:
+        entrypoint: npm
+        args: install
     - name: Test
-      run: npm test
+      uses: mikeal/npx@master
+      with:
+        entrypoint: npm
+        args: test
     - name: Publish
       if: github.ref == 'refs/heads/master' 
       uses: mikeal/merge-release@master
