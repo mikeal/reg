@@ -19,8 +19,8 @@ const runPush = async argv => {
 const bin = path.join(__dirname, 'reg.sh')
 
 const runScript = argv => {
-  const str = execSync(`${bin} ${argv.input}`)
-  stdout.write(str)
+  const str = execSync(`${bin} ${argv.filename}`)
+  process.stdout.write(str)
   return str
 }
 const runLinker = async argv => {
@@ -36,13 +36,20 @@ const runLinker = async argv => {
   }
 }
 
+const runOptions = yargs => {
+  yargs.positional('filename', {
+    desc: 'Filename of script to run. Example `reg myFile.js`'
+  })
+}
+
 const yargs = require('yargs')
 const args = yargs
+  .command('$0 <filename>', 'Run a local script file in reg', runOptions, runScript)
   .command('push <input> [name]', 'Push a module to the registry', pushOptions, runPush)
-  .command('run <input>', 'Run a script in reg', () => {}, runScript)
   .command('linker <input>', 'Run the static linker', () => {}, runLinker)
   .argv
 
-if (!args._.length) {
+if (!args._.length && !args.filename) {
+  console.log({args})
   yargs.showHelp()
 }
