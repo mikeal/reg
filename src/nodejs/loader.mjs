@@ -37,7 +37,7 @@ const loadPackage = async (cid, filename) => {
     filename = path.join(cache, cid.toString(), 'index.js')
   }
   for (let [key, value] of Object.entries(await pkg.get('*/deps'))) {
-    if (key.startswith('./') || key.startsWith('../../')) {
+    if (key.startswith('./') || key.startsWith('../')) {
       // TODO: write local files to look like original dir structure
     }
     loadPackage(value)
@@ -62,10 +62,12 @@ export async function resolve (specifier, parentModuleURL = baseURL, defaultReso
   } else {
     if (!specifier.startsWith('./') &&
         !specifier.startsWith('../') &&
-        !specifier.startsWith('/')){
+        !specifier.startsWith('/') &&
+        !specifier.startsWith('file://')){
       throw new Error(`Unknown import: "${specifier}`)
     }
-    return { url: 'file://' + specifier, format: 'module' }
+    let url = specifier.startsWith('file://') ? specifier : 'file://' + specifier
+    return { url, format: 'module' }
     throw new Error("not implemented")
   }
 
