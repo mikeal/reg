@@ -19,9 +19,7 @@ const runPush = async argv => {
 const bin = path.join(__dirname, 'reg.sh')
 
 const runScript = argv => {
-  const str = execSync(`${bin} ${argv.filename}`)
-  process.stdout.write(str)
-  return str
+  return execSync(`${bin} ${argv.filename}`, { stdio: 'inherit' })
 }
 const runLinker = async argv => {
   for await (let { root, block } of linker(argv.input)) {
