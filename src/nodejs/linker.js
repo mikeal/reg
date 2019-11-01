@@ -1,4 +1,4 @@
-const createTypes = require('./types')
+const createTypes = require('./types.js')
 const path = require('path')
 const types = createTypes({codec: 'dag-json'})
 const CID = require('cids')

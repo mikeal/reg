@@ -1,5 +1,5 @@
-const createTypes = require('./types')
-const linker = require('./linker')
+const createTypes = require('./types.js')
+const linker = require('./linker.js')
 
 const push = async (file, putBlock) => {
   const types = createTypes({codec: 'dag-json'})

@@ -4,7 +4,7 @@ const path = require('path')
 const assert = require('assert')
 const { writeFile } = require('fs').promises
 const { it } = require('mocha')
-const { push, storage } = require('../')
+const { push, storage } = require('../index.js')
 const { execSync } = require('child_process')
 const test = it
 

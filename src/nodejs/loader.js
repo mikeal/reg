@@ -7,8 +7,8 @@ import { fileURLToPath } from 'url'
 
 const require = Module.createRequire(import.meta.url)
 const CID = require('cids')
-const { local } = require('./storage')
-const createTypes = require('./types')
+const { local } = require('./storage.js')
+const createTypes = require('./types.js')
 const mkdirp = promisify(require('mkdirp'))
 
 const { readFile } = fs.promises
