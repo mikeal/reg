@@ -23,7 +23,7 @@ const runPublish = async argv => {
   const cid = (await pkg.block().cid()).toString()
   console.log(`Published "@reg/${cid}"`)
   const _registry = registry()
-  const res = await _registry.alias(argv.name, cid, argv.version, argv.latest)
+  const res = await _registry.alias(argv.name, cid, argv.semver, argv.latest)
   console.log(`Aliased ${argv.name + '/' + argv.version}`)
   if (res.info.latest) {
     console.log(`Aliased ${argv.name}`)
@@ -51,19 +51,35 @@ const runLinker = async argv => {
   }
 }
 
+const runInfo = async argv => {
+  const _registry = registry()
+  const pkg = await _registry.pkg(argv.name)
+  console.log(pkg)
+}
+
 const inputOptions = yargs => {
   yargs.positional('filename', {
     desc: 'Filename of script to run. Example `reg myFile.js`'
   })
 }
 
+const publishOptions = yargs => {
+  inputOptions(yargs)
+  yargs.positional('semver', {
+    describe: 'Package version number.',
+    type: 'string',
+    default: 'minor'
+  })
+}
+
 const yargs = require('yargs')
 const args = yargs
   .command('$0 <filename>', 'Run a local script file in reg', inputOptions, runScript)
-  .command('publish <filename> <name> <version>',
-           'Publish a module to the registry', inputOptions, runPublish)
+  .command('publish <filename> <name> <semver>',
+           'Publish a module to the registry', publishOptions, runPublish)
   .command('stage <filename>', 'Push a module to the registry', inputOptions, runStage)
   .command('linker <filename>', 'Run the static linker', inputOptions, runLinker)
+  .command('pkg-info <name>', 'Get package info for alias', () => {}, runInfo)
   .argv
 
 if (!args._.length && !args.filename) {

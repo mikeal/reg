@@ -1,7 +1,7 @@
 const bent = require('bent')
 
 const main = (host = 'reg.mikeal.workers.dev') => {
-  const get = bent(`https://${host}/@reg/pkg/`, 'json')
+  const get = bent(`https://${host}/`, 'json')
   const put = bent('PUT', `https://${host}/`, 'json')
   const alias = async (name, pkg, version, latest = true) => {
     const body = { version, pkg, latest }
@@ -11,7 +11,6 @@ const main = (host = 'reg.mikeal.workers.dev') => {
 
   const pkg = async name => {
     const pkg = await get(name + '/_pkg')
-    console.log({ pkg })
     return pkg
   }
   return { alias, pkg }
