@@ -8,6 +8,7 @@ const { execSync } = require('child_process')
 const printify = require('@ipld/printify')
 const registry = require('./src/nodejs/registry')
 const CID = require('cids')
+const createTypes = require('./src/nodejs/types')
 
 const pushOptions = yargs => {
 }
@@ -32,6 +33,16 @@ const runPublish = async argv => {
 }
 
 const runCat = async argv => {
+  const _registry = registry()
+  const pkg = await _registry.pkg(argv.name)
+  const store = storage.store()
+  const types = createTypes({getBlock: store.get})
+  const block = await store.get(new CID(pkg.pkg))
+  const p = types.Package.decoder(block.decode())
+  const data = await p.getNode('*/file/data')
+  for await (const chunk of data.read()) {
+    process.stdout.write(chunk)
+  }
 }
 
 const bin = path.join(__dirname, 'reg.sh')
@@ -104,6 +115,7 @@ const args = yargs
   .command('stage <filename>', 'Push a module to the registry', inputOptions, runStage)
   .command('linker <filename>', 'Run the static linker', inputOptions, runLinker)
   .command('info <name>', 'Get info for named alias', () => {}, runInfo)
+  .command('cat <name>', 'Print the file data for the named alias', () => {}, runCat)
   .command('pkg-info <cid|name>', 'Get package information', () => {}, runPkgInfo)
   .argv
 
