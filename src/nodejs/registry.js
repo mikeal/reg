@@ -10,11 +10,14 @@ const main = (host = 'reg.mikeal.workers.dev') => {
   }
 
   const pkg = async name => {
+    let pkg
     try {
-      const pkg = await info(name + '/_pkg')
+      pkg = await get(name + '/_pkg')
     } catch(e) {
-      const body = await (await e.responseBody).toString()
-      e.message += `\nMessage\n${body}`
+      if (e.responseBody) {
+        const body = (await e.responseBody).toString()
+        e.message += `\nMessage\n${body}`
+      }
       throw e
     }
     return pkg
