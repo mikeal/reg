@@ -10,7 +10,13 @@ const main = (host = 'reg.mikeal.workers.dev') => {
   }
 
   const pkg = async name => {
-    const pkg = await get(name + '/_pkg')
+    try {
+      const pkg = await info(name + '/_pkg')
+    } catch(e) {
+      const body = await (await e.responseBody).toString()
+      e.message += `\nMessage\n${body}`
+      throw e
+    }
     return pkg
   }
   return { alias, pkg }

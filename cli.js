@@ -7,6 +7,7 @@ const storage = require('./src/nodejs/storage.js')
 const { execSync } = require('child_process')
 const printify = require('@ipld/printify')
 const registry = require('./src/nodejs/registry')
+const CID = require('cids')
 
 const pushOptions = yargs => {
 }
@@ -57,6 +58,29 @@ const runInfo = async argv => {
   console.log(pkg)
 }
 
+const validate = str => {
+  try {
+    new CID(str)
+  } catch (e) {
+    return false
+  }
+  return true
+}
+
+const runPkgInfo = async argv => {
+  let cid
+  if (!validate(argv.cid)) {
+    const _registry = registry()
+    const pkg = await _registry.pkg(argv.name)
+    cid = new CID(pkg.pkg)
+  } else {
+    cid = new CID(argv.cid)
+  }
+  const store = storage.store()
+  const block = await store.get(cid)
+  console.log(printify(block.decode()))
+}
+
 const inputOptions = yargs => {
   yargs.positional('filename', {
     desc: 'Filename of script to run. Example `reg myFile.js`'
@@ -79,7 +103,8 @@ const args = yargs
            'Publish a module to the registry', publishOptions, runPublish)
   .command('stage <filename>', 'Push a module to the registry', inputOptions, runStage)
   .command('linker <filename>', 'Run the static linker', inputOptions, runLinker)
-  .command('pkg-info <name>', 'Get package info for alias', () => {}, runInfo)
+  .command('info <name>', 'Get info for named alias', () => {}, runInfo)
+  .command('pkg-info <cid|name>', 'Get package information', () => {}, runPkgInfo)
   .argv
 
 if (!args._.length && !args.filename) {

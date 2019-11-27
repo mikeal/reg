@@ -2,6 +2,7 @@ const createTypes = require('./types.js')
 const path = require('path')
 const types = createTypes({codec: 'dag-json'})
 const CID = require('cids')
+const makeRegistry = require('./registry')
 
 /*
 Registry layout is simple. Every user has their own namespace
@@ -20,14 +21,11 @@ The CID must be a valid Package.
 const { parse, print } = require('recast')
 const { readFile } = require('fs').promises
 
-const registry = {
-  get: async name => new CID('bafyreieoim3jacbidhkjdjxqevd6jsdzoaimpxnin6whc6jmalxhu5n62a')
-}
-
 // TODO: replace with better API on unixfs File, File.fromString
 const fileIter = async function * (str) { yield Buffer.from(str) }
 
 const importer = async function * (parser) {
+  const registry = makeRegistry()
   let ast = await parser.parsed
   const pending = []
   const isLocal = s => {
@@ -47,7 +45,9 @@ const importer = async function * (parser) {
     } else if (source.startsWith('@')) {
       /* reserve @std/ for browser standard library */
       if (source.startsWith('@std/')) return
-      cid = await registry.get(source)
+      const info = await registry.pkg(source)
+      if (!info) throw new Error(`No package in registry named ${source}`)
+      cid = new CID(info.pkg)
     } else if (isLocal(source)) {
       for await (let { root, block } of parser.resolve(source)) {
         if (root) {
