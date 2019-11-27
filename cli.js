@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 'use strict'
+const mkdirp = require('mkdirp')
 const path = require('path')
 const push = require('./src/nodejs/push')
 const linker = require('./src/nodejs/linker')
 const storage = require('./src/nodejs/storage.js')
+const deflate = require('./src/nodejs/deflate.js')
 const { execSync } = require('child_process')
 const printify = require('@ipld/printify')
 const registry = require('./src/nodejs/registry')
@@ -16,6 +18,9 @@ const runStage = async argv => {
   const store = storage.local()
   const pkg = await push(argv.filename, store.put)
   const cid = await pkg.block().cid()
+  mkdirp.sync(argv['target-dir'])
+  const manifest = await deflate(cid, argv['target-dir'], store)
+  console.log(manifest)
   console.log(`Staged "@reg/${cid.toString()}"`)
 }
 
@@ -98,6 +103,14 @@ const inputOptions = yargs => {
   })
 }
 
+const stageOptions = yargs => {
+  inputOptions(yargs)
+  yargs.option('target-dir', {
+    desc: 'Directory to deflate all required files',
+    default: path.join(process.env.HOME, '.reg', 'deflate')
+  })
+}
+
 const publishOptions = yargs => {
   inputOptions(yargs)
   yargs.positional('semver', {
@@ -112,7 +125,7 @@ const args = yargs
   .command('$0 <filename>', 'Run a local script file in reg', inputOptions, runScript)
   .command('publish <filename> <name> <semver>',
            'Publish a module to the registry', publishOptions, runPublish)
-  .command('stage <filename>', 'Push a module to the registry', inputOptions, runStage)
+  .command('stage <filename>', 'Run the linker and stage the tree in local cache', stageOptions, runStage)
   .command('linker <filename>', 'Run the static linker', inputOptions, runLinker)
   .command('info <name>', 'Get info for named alias', () => {}, runInfo)
   .command('cat <name>', 'Print the file data for the named alias', () => {}, runCat)
@@ -120,6 +133,5 @@ const args = yargs
   .argv
 
 if (!args._.length && !args.filename) {
-  console.log({args})
   yargs.showHelp()
 }

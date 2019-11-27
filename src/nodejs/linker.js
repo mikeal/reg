@@ -46,7 +46,6 @@ const importer = async function * (parser) {
       /* reserve @std/ for browser standard library */
       if (source.startsWith('@std/')) return
       const info = await registry.pkg(source)
-      console.log({info})
       if (!info) throw new Error(`No package in registry named ${source}`)
       cid = new CID(info.pkg)
     } else if (isLocal(source)) {
