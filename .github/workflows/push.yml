@@ -1,23 +1,24 @@
 on: push
-name: Build, Test, and Publish if master
+name: Build and Publish
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - name: Cache node_modules
+      id: cache-modules
+      uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: ${{ runner.OS }}-build-${{ hashFiles('package.json') }}
     - name: Build
-      uses: mikeal/npx@master
-      with:
-        entrypoint: npm
-        args: install
+      if: steps.cache-modules.outputs.cache-hit != 'true'
+      run: npm install
     - name: Test
-      uses: mikeal/npx@master
-      with:
-        entrypoint: npm
-        args: test
+      run: npm test
     - name: Publish
-      if: github.ref == 'refs/heads/master' 
+      if: github.ref == 'refs/heads/master'
       uses: mikeal/merge-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
