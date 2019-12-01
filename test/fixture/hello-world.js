@@ -1,2 +1,2 @@
 import { hello } from './src/hello-world.js'
-import test from '@test/test'
+import { hello as hello2 } from '@test/test'

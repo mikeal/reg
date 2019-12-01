@@ -19,7 +19,6 @@ const exists = async filename => {
 
 const write = async (filename, pkg, dir) => {
   if (await exists(filename)) {
-    console.log('cached')
     return
   }
   const data = await pkg.getNode('*/file/data')

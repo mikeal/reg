@@ -11,6 +11,9 @@ const printify = require('@ipld/printify')
 const registry = require('./src/nodejs/registry')
 const CID = require('cids')
 const createTypes = require('./src/nodejs/types')
+const tmp = require('tmp')
+
+const tmpdir = f => tmp.dirSync(f)
 
 const pushOptions = yargs => {
 }
@@ -22,6 +25,8 @@ const runStage = async argv => {
   const manifest = await deflate(cid, argv['target-dir'], store)
   console.log(manifest)
   console.log(`Staged "@reg/${cid.toString()}"`)
+  manifest.main = cid
+  return manifest
 }
 
 const runPublish = async argv => {
@@ -52,8 +57,12 @@ const runCat = async argv => {
 
 const bin = path.join(__dirname, 'reg.sh')
 
-const runScript = argv => {
-  return execSync(`${bin} ${argv.filename}`, { stdio: 'inherit' })
+const runScript = async argv => {
+  const dir = tmpdir().name
+  argv['target-dir'] = dir
+  const stage = await runStage(argv)
+  const filename = path.join(dir, stage.main.toString('base32') + '.js')
+  return execSync(`${bin} ${filename}`, { stdio: 'inherit' })
 }
 const runLinker = async argv => {
   for await (let { root, block } of linker(argv.filename)) {

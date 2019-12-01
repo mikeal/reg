@@ -28,37 +28,13 @@ const { createWriteStream } = fs
 
 let globals = {}
 
-const loadPackage = async (cid, filename) => {
-  const block = await store.get(cid)
-  // Validate Schema
-  const data = block.decode()
-  const pkg = types.Package.decoder(data)
-  if (!filename) {
-    filename = path.join(cache, cid.toString(), 'index.js')
-  }
-  for (let [key, value] of Object.entries(await pkg.get('*/deps'))) {
-    if (key.startswith('./') || key.startsWith('../')) {
-      // TODO: write local files to look like original dir structure
-    }
-    loadPackage(value)
-  }
-  await mkdirp(path.dirname(filename))
-  const file = await pkg.getNode('*/file/data')
-  const writer = createWriteStream(filename)
-  for await (const chunk of file.read()) {
-    writer.write(chunk)
-  }
-  writer.end()
-  return filename
-}
-
 export async function resolve (specifier, parentModuleURL = baseURL, defaultResolve) {
   if (specifier.startsWith('@') || specifier.startsWith('@')) {
-    if (specifier.startsWith('@reg/')) {
-      let cid = new CID(specifier.slice('@reg/'.length))
-      let f = await loadPackage(cid)
-      return { url: 'file://' + f, format: 'module' }
-    }
+    throw new Error("Unsupported: The Node.js ESM loader has bugs in loader IO so we can't yet do dynamic loading")
+  } else if (specifier.startsWith('/@reg/')) {
+    const stage = parentModuleURL.slice(0, parentModuleURL.lastIndexOf('/'))
+    let filename = specifier.slice('/@reg/'.length)
+    return { url: stage + '/' + filename, format: 'module' }
   } else {
     if (!specifier.startsWith('./') &&
         !specifier.startsWith('../') &&

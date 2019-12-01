@@ -60,10 +60,9 @@ const importer = async function * (parser) {
       throw new Error(`Unknown import "${ source }"`)
     }
     deps[source] = cid
-    dec.source.value = `@reg/${cid.toString()}`
-    let str = print(dec).code
-    str += ` // static-link("${source}")`
-    ast.program.body[i] = parse(str).program.body[0]
+    dec.source.value = `/@reg/${cid.toString()}.js`
+    const comment = parse(`// static-link("${source}")`).program.comments[0]
+    // TODO: figure out how to add the comment to the line
   }
   let i = 0
   for (const dec of [...ast.program.body]) {
