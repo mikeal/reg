@@ -34,7 +34,7 @@ const write = async (filename, pkg, dir) => {
 const getDeps = async (pkg, dir, store, name, obj) => {
   const deps = await pkg.get('*/deps')
   const promises = []
-  for (let [key, link] of Object.entries(deps)) {
+  for (const [key, link] of Object.entries(deps)) {
     let _name = name
     if (key.startsWith('@')) {
       _name = key
@@ -46,12 +46,12 @@ const getDeps = async (pkg, dir, store, name, obj) => {
   return Promise.all(promises)
 }
 
-const deflate = async (cid, dir, store, name='', obj={}) => {
+const deflate = async (cid, dir, store, name = '', obj = {}) => {
   const key = cid.toString('base32')
   if (!obj[key]) obj[key] = []
-  obj[key].push(name ? name : 'main')
+  obj[key].push(name || 'main')
   const filename = path.join(dir, cid.toString('base32') + '.js')
-  const types = createTypes({getBlock: store.get})
+  const types = createTypes({ getBlock: store.get })
   const block = await store.get(cid)
   const pkg = types.Package.decoder(block.decode())
   await Promise.all([write(filename, pkg, dir), getDeps(pkg, dir, store, name, obj)])

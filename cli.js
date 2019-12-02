@@ -30,13 +30,13 @@ const runStage = async argv => {
 }
 
 const runPublish = async argv => {
-  const store = storage.store()
+  const store = storage.store(argv.token)
   const pkg = await push(argv.filename, store.put)
   const cid = (await pkg.block().cid()).toString()
   console.log(`Published "@reg/${cid}"`)
-  const _registry = registry()
+  const _registry = registry(argv.token)
   const res = await _registry.alias(argv.name, cid, argv.semver, argv.latest)
-  console.log(`Aliased ${argv.name + '/' + argv.version}`)
+  console.log(`Aliased ${argv.name + '/' + argv.semver}`)
   if (res.info.latest) {
     console.log(`Aliased ${argv.name}`)
   }
@@ -46,7 +46,7 @@ const runCat = async argv => {
   const _registry = registry()
   const pkg = await _registry.pkg(argv.name)
   const store = storage.store()
-  const types = createTypes({getBlock: store.get})
+  const types = createTypes({ getBlock: store.get })
   const block = await store.get(new CID(pkg.pkg))
   const p = types.Package.decoder(block.decode())
   const data = await p.getNode('*/file/data')
@@ -122,6 +122,11 @@ const stageOptions = yargs => {
 
 const publishOptions = yargs => {
   inputOptions(yargs)
+  yargs.option('token', {
+    describe: 'GitHub personal access token',
+    type: 'string',
+    default: process.env.GHTOKEN || process.env.GITHUB_TOKEN
+  })
   yargs.positional('semver', {
     describe: 'Package version number.',
     type: 'string',
@@ -133,7 +138,7 @@ const yargs = require('yargs')
 const args = yargs
   .command('$0 <filename>', 'Run a local script file in reg', inputOptions, runScript)
   .command('publish <filename> <name> <semver>',
-           'Publish a module to the registry', publishOptions, runPublish)
+    'Publish a module to the registry', publishOptions, runPublish)
   .command('stage <filename>', 'Run the linker and stage the tree in local cache', stageOptions, runStage)
   .command('linker <filename>', 'Run the static linker', inputOptions, runLinker)
   .command('info <name>', 'Get info for named alias', () => {}, runInfo)

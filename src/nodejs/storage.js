@@ -11,14 +11,15 @@ const toString = async block => {
   return (await cid).toString('base32')
 }
 
-const store = (dir = defaultDir, host = 'reg.mikeal.workers.dev') => {
+const store = (token, dir = defaultDir, host = 'reg.mikeal.workers.dev') => {
   mkdirp.sync(dir)
+  const auth = `?GITHUB_TOKEN=${token}`
 
   const _put = bent('PUT', `https://${host}/@reg/put/`, 'json')
   const _get = bent(`https://${host}/@reg/block/`, 'buffer')
 
   const registryPut = async block => {
-    const res = await _put(await toString(block), block.encode())
+    const res = await _put(await toString(block) + auth, block.encode())
     return res.key
   }
   const registryGet = async cid => {

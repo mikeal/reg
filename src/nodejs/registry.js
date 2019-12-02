@@ -1,11 +1,12 @@
 const bent = require('bent')
 
-const main = (host = 'reg.mikeal.workers.dev') => {
+const main = (token, host = 'reg.mikeal.workers.dev') => {
+  auth = `?GITHUB_TOKEN=${token}`
   const get = bent(`https://${host}/`, 'json')
   const put = bent('PUT', `https://${host}/`, 'json')
   const alias = async (name, pkg, version, latest = true) => {
     const body = { version, pkg, latest }
-    const info = await put(name + '/_publish', body)
+    const info = await put(name + '/_publish' + auth, body)
     return info
   }
 
@@ -13,7 +14,7 @@ const main = (host = 'reg.mikeal.workers.dev') => {
     let pkg
     try {
       pkg = await get(name + '/_pkg')
-    } catch(e) {
+    } catch (e) {
       if (e.responseBody) {
         const body = (await e.responseBody).toString()
         e.message += `\nMessage\n${body}`

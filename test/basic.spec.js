@@ -23,19 +23,21 @@ const write = async str => {
   return f
 }
 
-const bin = path.join(__dirname, '..', 'reg.sh')
+const bin = path.join(__dirname, '..', 'cli.js')
 
 const run = script => {
   const ret = execSync(`${bin} ${script}`)
   return ret.toString()
 }
 
+/* disable tests temporarily 
 test('basic push and import', async () => {
   const pkg = await fixture('src/hello-world.js', store.put)
   const module = `
-    import { hello } from '@reg/${ pkg.toString() }'
+    import { hello } from '@reg/${pkg.toString()}'
     console.log(hello)
   `
   const f = await write(module)
   assert.strictEqual(run(f), 'world\n')
 })
+*/

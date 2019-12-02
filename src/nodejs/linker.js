@@ -1,6 +1,6 @@
 const createTypes = require('./types.js')
 const path = require('path')
-const types = createTypes({codec: 'dag-json'})
+const types = createTypes({ codec: 'dag-json' })
 const CID = require('cids')
 const makeRegistry = require('./registry')
 
@@ -26,7 +26,7 @@ const fileIter = async function * (str) { yield Buffer.from(str) }
 
 const importer = async function * (parser) {
   const registry = makeRegistry()
-  let ast = await parser.parsed
+  const ast = await parser.parsed
   const pending = []
   const isLocal = s => {
     if (s.startsWith('./')) return true
@@ -57,7 +57,7 @@ const importer = async function * (parser) {
         yield { block }
       }
     } else {
-      throw new Error(`Unknown import "${ source }"`)
+      throw new Error(`Unknown import "${source}"`)
     }
     deps[source] = cid
     dec.source.value = `/@reg/${cid.toString()}.js`
@@ -82,24 +82,26 @@ const importer = async function * (parser) {
     }
     yield { block }
   }
-  const pkg = types.Package.encoder({ v1: { file: await fileLink, deps }})
+  const pkg = types.Package.encoder({ v1: { file: await fileLink, deps } })
   const block = pkg.block()
   yield { root: pkg }
 }
-
 
 class Parser {
   constructor (file) {
     this.file = file
     this.parsed = this.parse()
   }
+
   async parse () {
     const buffer = await readFile(this.file)
     return parse(buffer.toString())
   }
+
   imports () {
     return importer(this)
   }
+
   resolve (local) {
     const f = path.resolve(path.dirname(this.file), local)
     const parser = new Parser(f)
@@ -124,7 +126,7 @@ const push = async (file, putBlock) => {
   const files = {}
   // TODO: parse file and re-write all imports to
   // CID references.
-  
+
   }
 module.exports = push
 */

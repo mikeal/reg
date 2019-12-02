@@ -2,7 +2,7 @@ const createTypes = require('./types.js')
 const linker = require('./linker.js')
 
 const push = async (file, putBlock) => {
-  const types = createTypes({codec: 'dag-json'})
+  const types = createTypes({ codec: 'dag-json' })
   const puts = []
   let pkg
   for await (let { block, root } of linker(file)) {
