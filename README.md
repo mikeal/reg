@@ -19,6 +19,10 @@ is then just a namespace that maps users, package names, and versions to
 specific package hashes. You can then directly import the resulting package
 references in a Browser or in Node.js with a special loader.
 
+**Note: since this is built for Universal JavaScript, you cannot use any
+of the Node.js standard library or any packages from `npm` since none
+of this is available in Browsers without a compiler.**
+
 ## CLI
 
 ### `reg input-file.js`

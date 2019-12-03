@@ -1,6 +1,10 @@
-This is the IPLD Schema for Packages.
+# `reg` IPLD Schema
 
-The `File` type is from UnixFSv2 and imported from the
+This is the [IPLD Schema](https://specs.ipld.io) for `reg` Packages.
+
+The `File` type is from UnixFSv2 (next-generation
+data structures for IPFS). In this implementation
+of `reg` the UnixFSv2 implementation is imported from the
 [`unixfsv2`](https://github.com/ipld/js-unixfsv2) module.
 
 ```sh
