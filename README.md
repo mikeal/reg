@@ -17,7 +17,7 @@ the import statements of the output files (this is the **only** alteration to
 your source file `reg` does, it is not a compiler). A package registry
 is then just a namespace that maps users, package names, and versions to
 specific package hashes. You can then directly import the resulting package
-references in a Browser.
+references in a Browser or in Node.js with a special loader.
 
 ## CLI
 
@@ -45,6 +45,13 @@ Positionals:
       --token    GitHub personal access token
                  Defaults to process.env.GHTOKEN || process.env.GITHUB_TOKEN
 ```
+
+Note that this command requires a GitHub Token that only needs enough permissions
+to validate the user, no write or read access to any of your repositories are
+required.
+
+All package names must be proceeded by the user's GitHub username. There are currently
+no top level packages.
 
 ## Developer CLI
 
