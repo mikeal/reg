@@ -100,3 +100,17 @@ changed**.
 
 For a more detailed look at the data structure you can read 
 [the schema](./Schema.md).
+
+Some visual examples follow:
+
+![IMG_0306](https://user-images.githubusercontent.com/579/70022957-d562b300-154a-11ea-8b45-fee33f8316a7.jpeg)
+
+![IMG_0307](https://user-images.githubusercontent.com/579/70022968-dd225780-154a-11ea-864c-868983eace65.jpeg)
+
+![IMG_0308](https://user-images.githubusercontent.com/579/70022981-e3183880-154a-11ea-97e0-3c02b7f47554.jpeg)
+
+![IMG_0309](https://user-images.githubusercontent.com/579/70022985-e8758300-154a-11ea-9f47-14fcdc363155.jpeg)
+
+![IMG_0310](https://user-images.githubusercontent.com/579/70023075-2c688800-154b-11ea-9584-75e6904bdce2.jpeg)
+
+![IMG_0311](https://user-images.githubusercontent.com/579/70023088-2ffc0f00-154b-11ea-9e35-f77574fb3600.jpeg)
