@@ -1,4 +1,4 @@
-# Reg - Native ESM Package Management
+# `reg` - Native ESM Package Management
 
 `reg` is a package manager for native ES Modules. It's
 built to enable dependency management for Universal JavaScript
