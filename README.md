@@ -87,7 +87,7 @@ dependency tree attached.
 cache de-duplication works across differing module names and version.
 * Every file is chunked with an algorithm called Rabin which creates
 good block boundaries for diffing (this is what rsync uses). This
-gives us sub-file de-duplication in cache which is esspecially
+gives us sub-file de-duplication in cache which is especially
 useful for de-duplicating file parts between versions.
 
 This data structure also enables some important HTTP/2 features
