@@ -93,7 +93,7 @@ useful for de-duplicating file parts between versions.
 This data structure also enables some important HTTP/2 features
 we need in order to be competitive with bundle performance.
 
-* HTTP/2 Push for of all the dependencies required by a single import.
+* HTTP/2 Push for all of the dependencies required by a single import.
 * If an old e-tag is presented for a module, `reg` can diff the two
 dependency trees and use HTTP/2 Push of **only the assets that have
 changed**.
