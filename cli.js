@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 'use strict'
-const mkdirp = require('mkdirp')
+
+/* hack - fixes bug in multicodec table */
 const path = require('path')
+const table = require('multicodec/src/name-table')
+const modpath = path.join(__dirname, 'node_modules/multicodec/src/name-table.js')
+require.cache[modpath].exports = { ...table, '0129': 'dag-json' }
+/* end hack */
+
+const mkdirp = require('mkdirp')
 const push = require('./src/nodejs/push')
 const linker = require('./src/nodejs/linker')
 const storage = require('./src/nodejs/storage.js')
