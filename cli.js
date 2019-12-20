@@ -4,7 +4,7 @@
 /* hack - fixes bug in multicodec table */
 const path = require('path')
 const table = require('multicodec/src/name-table')
-const modpath = path.join(__dirname, 'node_modules/multicodec/src/name-table.js')
+const modpath = Object.keys(require.cache).find(k => k.endsWith(path.join('multicodec', 'src', 'name-table.js')))
 require.cache[modpath].exports = { ...table, '0129': 'dag-json' }
 /* end hack */
 
