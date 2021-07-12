@@ -8,21 +8,32 @@ of `reg` the UnixFSv2 implementation is imported from the
 [`unixfsv2`](https://github.com/ipld/js-unixfsv2) module.
 
 ```sh
-type PackageV1 struct {
+type Module struct {
   file &File
   deps PackageMap
+  builtins optional [String]
 }
-type PackageMap {String:&Package}
+type Exports struct {
+  default Module
+  node optional Module
+  browser optional Module
+}
+type PackageV1 struct {
+  exports Exports
+  tests Module
+}
+type PackageMap {String:&PackageV1}
 type Package union {
   | PackageV1 "v1"
 } representation keyed
 ```
 
-A package is a single file of JavaScript and a map
-of dependent packages. This means that a typical
-project will actually be a collection of packages
-that are all linked together.
+At a basic level, a package is a data structure for
+a single file. It can export different files for
+different platforms (nodejs, browser) and may contain
+other useful metadata (required builtins, tests, etc).
 
+Each file also has statically linked dependencies.
 The keys of `PackageMap` are the exact import strings
 from the original source file.
 
